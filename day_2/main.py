@@ -14,4 +14,16 @@ if __name__ == '__main__':
 		'and the total depth move is', total_depth,
 		'giving a product of', total_depth * total_forward)
 
+	# part 2
+	trajectory['aim'] = trajectory['value']
+	trajectory.loc[trajectory.direction == 'forward', 'aim'] = 0
+	trajectory.loc[trajectory.direction == 'up', 'aim'] = - trajectory.loc[trajectory.direction == 'up', 'value']
+	trajectory['aim'] = trajectory['aim'].cumsum()
 
+	forward = trajectory.loc[lambda df: df['direction'] == 'forward', :]
+	total_forward = sum(forward['value'])
+
+	total_depth = sum(forward['value'] * forward['aim'])
+	print('The total forward move is : ', total_forward,
+		'and the total depth move is', total_depth,
+		'giving a product of', total_depth * total_forward)
