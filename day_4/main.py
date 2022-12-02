@@ -49,3 +49,20 @@ if __name__ == '__main__':
 			print('The score of the winning board is :', 
 				sum(winner_grid[np.logical_not(mask)]) * val)
 			break
+
+	# part 2
+	game = play_bingo(val_list, all_chunks)
+	for val, turn in zip(val_list, game):
+		check_bingo = np.logical_or(
+			np.prod(turn, axis = 1, dtype = bool),
+			np.prod(turn, axis = 2, dtype = bool))
+		is_loser = np.logical_not(np.any(check_bingo, axis = 1))
+		if sum(is_loser) == 1:
+			loser_index = is_loser
+		if sum(is_loser) == 0:
+			loser_grid = all_chunks[loser_index]
+			mask = turn[loser_index]
+
+			print('The score of the losing board is :', 
+				sum(loser_grid[np.logical_not(mask)]) * val)
+			break
